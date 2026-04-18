@@ -1,0 +1,185 @@
+{
+  "route_count": 16,
+  "trip_count": 1210,
+  "stop_count": 512,
+  "shape_count": 43,
+  "stop_times_count": 28512,
+  "has_frequencies": false,
+  "has_transfers": false,
+  "has_fare_attributes": false,
+  "has_fare_rules": false,
+  "bbox": {
+    "lat_min": 39.121337890625,
+    "lat_max": 39.20846939086914,
+    "lon_min": -86.59962463378906,
+    "lon_max": -86.47177124023438
+  },
+  "calendar_services": [
+    {
+      "service_id": "116",
+      "days": [
+        "friday"
+      ],
+      "start_date": "20251001",
+      "end_date": "20270112"
+    },
+    {
+      "service_id": "115",
+      "days": [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday"
+      ],
+      "start_date": "20251001",
+      "end_date": "20270112"
+    },
+    {
+      "service_id": "114",
+      "days": [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday"
+      ],
+      "start_date": "20250102",
+      "end_date": "20270112"
+    },
+    {
+      "service_id": "109",
+      "days": [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday"
+      ],
+      "start_date": "20240825",
+      "end_date": "20270112"
+    },
+    {
+      "service_id": "102",
+      "days": [
+        "sunday"
+      ],
+      "start_date": "20240825",
+      "end_date": "20270112"
+    },
+    {
+      "service_id": "98",
+      "days": [
+        "sunday"
+      ],
+      "start_date": "20240503",
+      "end_date": "20270112"
+    },
+    {
+      "service_id": "49",
+      "days": [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday"
+      ],
+      "start_date": "20240503",
+      "end_date": "20270112"
+    },
+    {
+      "service_id": "43",
+      "days": [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday"
+      ],
+      "start_date": "20240107",
+      "end_date": "20270112"
+    },
+    {
+      "service_id": "28",
+      "days": [
+        "saturday"
+      ],
+      "start_date": "20240825",
+      "end_date": "20270112"
+    },
+    {
+      "service_id": "26",
+      "days": [
+        "saturday"
+      ],
+      "start_date": "20240503",
+      "end_date": "20270112"
+    }
+  ],
+  "calendar_dates_exceptions": {
+    "type1_added": 6,
+    "type2_removed": 32,
+    "total": 38
+  },
+  "feed_info": {
+    "feed_publisher_name": "ETA Transit Systems",
+    "feed_publisher_url": "https://etatransit.com",
+    "feed_lang": "en",
+    "feed_start_date": "20240107",
+    "feed_end_date": "20270112",
+    "feed_version": "86"
+  },
+  "agency": {
+    "agency_name": "Bloomington Transit",
+    "agency_url": "https://bloomingtontransit.com/",
+    "agency_timezone": "America/New_York",
+    "agency_id": "1",
+    "agency_lang": "en",
+    "agency_phone": "(812) 336-7433",
+    "agency_fare_url": NaN,
+    "agency_email": NaN
+  },
+  "shape_coverage": {
+    "routes_with_shapes": 16,
+    "routes_total": 16,
+    "trip_shape_ids_in_shapes": 43,
+    "trip_shape_ids_missing": 0
+  },
+  "frequencies_rows": 0,
+  "download": {
+    "status": 200,
+    "bytes": 375622,
+    "etag": "\"658fe2e815cba6fc61d0979ca0b86a08\"",
+    "last_modified": "Mon, 12 Jan 2026 13:14:06 GMT",
+    "latency_ms": 713.42,
+    "http_version": "HTTP/1.1",
+    "zip_entries": [
+      "agency.txt",
+      "calendar.txt",
+      "calendar_dates.txt",
+      "fare_attributes.txt",
+      "fare_rules.txt",
+      "frequencies.txt",
+      "routes.txt",
+      "shapes.txt",
+      "stops.txt",
+      "stop_times.txt",
+      "transfers.txt",
+      "trips.txt",
+      "feed_info.txt"
+    ]
+  },
+  "static_feed_age_days": 95.5,
+  "active_services_today": [
+    "116",
+    "114",
+    "109",
+    "49",
+    "43"
+  ],
+  "active_services_tomorrow": [
+    "28",
+    "26"
+  ],
+  "today_iso": "2026-04-17",
+  "tomorrow_iso": "2026-04-18"
+}

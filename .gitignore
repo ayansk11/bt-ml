@@ -1,0 +1,47 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+**/*.key
+**/*_token*
+**/*secret*
+hf_*
+
+# Raw feeds + snapshots (refreshable, large)
+*.pb
+gtfs_logs/
+
+# Large binary model artifacts we shouldn't commit
+models/*.onnx
+models/*.tflite
+models/*.bin
+models/*.pt
+models/*.safetensors
+
+# Build output
+build/
+dist/
+.pytest_cache/
+
+# Notebook output copies
+notebooks/*_out.ipynb
+notebooks/*.html
