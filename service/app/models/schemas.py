@@ -137,5 +137,5 @@ class NlqResponse(BaseModel):
     route_id: Optional[str] = None
     stop_id: Optional[str] = None
     direction: Optional[str] = None
-    parse_source: Literal["regex", "none"]
+    parse_source: Literal["claude", "regex", "none"]
     latency_ms: float
