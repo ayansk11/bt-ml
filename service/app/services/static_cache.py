@@ -1,12 +1,4 @@
-"""Loads static GTFS into in-memory maps on startup.
-
-Everything needed for prediction joins + passthrough endpoints:
-  - routes_by_id: dict[route_id, RouteRecord]
-  - stops_by_id:  dict[stop_id, StopRecord]
-  - trips_by_id:  dict[trip_id, TripRecord]
-  - stop_times_by_trip: dict[trip_id, list[StopTimeRow]]  (sorted by stop_sequence)
-  - stop_id_to_trip_stops: dict[stop_id, list[(trip_id, stop_sequence)]]
-"""
+"""In-memory static GTFS cache loaded on startup."""
 from __future__ import annotations
 
 from dataclasses import dataclass

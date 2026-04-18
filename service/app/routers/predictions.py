@@ -1,12 +1,4 @@
-"""GET /predictions?stop_id=X&horizon_minutes=30 — spine endpoint.
-
-Builds the Scheduled / BT / Ours triple for every upcoming arrival at a stop
-within the given horizon. Joins static stop_times with live trip_updates +
-vehicle_positions, runs A1+A2+A3 through `combine_correction` and
-`confidence_tier`.
-
-Also: GET /predictions/trip/{trip_id} — per-stop propagation for B3.
-"""
+"""/predictions — per-stop arrivals with scheduled / agency / adjusted ETAs."""
 from __future__ import annotations
 
 from collections import defaultdict

@@ -1,15 +1,4 @@
-"""Async Google Directions client + TTL cache.
-
-Uses a singleton httpx.AsyncClient with:
-  - HTTP/2 negotiation (shaves TCP/TLS handshake cost on subsequent requests)
-  - keep-alive connection pool sized for the expected concurrency
-  - 3s connect / 6s read timeouts
-  - gzip responses
-
-Plus an in-memory TTL cache keyed on (origin_rounded_4dp, dest_rounded_4dp, mode)
-that avoids Google Directions round-trips (~300-700ms typical) when the same
-trip is queried again within CACHE_TTL_SEC.
-"""
+"""Async Google Directions client with a small in-memory TTL cache."""
 from __future__ import annotations
 
 import logging

@@ -1,17 +1,4 @@
-"""A1 LightGBM + A2 route intercepts + A3 confidence tiering.
-
-Design:
-  * A1Predictor: loads joblib at construction; predicts a residual correction
-    in seconds given a feature row; exposes `route_support` = count of training
-    samples per route (for A3 confidence).
-  * BaselinePredictor: always predicts 0 correction. Used when A1 aborts.
-  * A2 lookup: route_id → additive seconds, applied ONLY when the model is
-    BaselinePredictor (i.e. A1 aborted or threw) OR the route is unseen by A1.
-    This avoids double-counting route bias (A1 already has route_id as a
-    categorical feature for routes it trained on).
-  * combine_correction(route_id, a1_pred, a1_route_seen) → final correction.
-  * confidence_tier(route_id, horizon_s, has_upstream_trend) → high/medium/low.
-"""
+"""Predictor: LightGBM residual + per-route intercept + confidence tier."""
 from __future__ import annotations
 
 import json

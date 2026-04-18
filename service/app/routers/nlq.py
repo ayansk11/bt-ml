@@ -1,14 +1,4 @@
-"""POST/GET /nlq — natural language query (C2 stretch).
-
-Regex-first (always on), Claude-second (if ANTHROPIC_API_KEY is set AND latency
-under 800ms). Never raises to the caller.
-
-Supported intents returned in `intent`:
-  - next_on_route       — "next 6", "when does 3E come", "when is the next 9"
-  - stop_search         — "bus to <name>", "[name] stop"
-  - show_route          — "route 6", "show 3E"
-  - unknown             — no match
-"""
+"""/nlq — parse short natural-language transit queries into intents."""
 from __future__ import annotations
 
 import os

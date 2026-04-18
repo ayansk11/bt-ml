@@ -1,23 +1,4 @@
-"""Convert Google Directions payload → compact TripPlan response, with AI enrichment.
-
-Design goals (in order):
-  1. Low latency. Reuse cached static maps, do no DB/network calls inside the
-     per-step loop.
-  2. Small wire shape. Strip Google's chatty legs/steps into just what the
-     Android UI renders.
-  3. AI enrichment is best-effort. If matching fails for a step, we quietly
-     fall back to Google's own times.
-
-Matching policy:
-  - Map Google's `transit_details.line.short_name` (e.g. "6", "3E") to our
-    BT `route_id` via case-insensitive equality. BT route_id *is* the short name.
-  - Snap Google's `departure_stop.location` to the nearest BT stop within
-    80 m (one block). Beyond that, no AI adjustment — would be a different
-    stop altogether.
-  - AI correction uses `predictor.predict_correction` + `combine_correction`
-    on a feature row built from the matched BT stop_sequence within the
-    resolved trip.
-"""
+"""Transforms Google Directions JSON into the compact TripPlan payload the Android app expects."""
 from __future__ import annotations
 
 import math

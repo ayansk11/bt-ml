@@ -1,19 +1,4 @@
-"""GET /plan?origin_lat=..&origin_lng=..&dest_lat=..&dest_lng=.. [&departure_time=epoch]
-
-Proxies Google Directions (transit mode), enriches transit steps with our
-A1+A2 adjusted boarding ETA + A3 confidence, returns compact JSON.
-
-Low-latency tactics:
-  - Singleton async httpx client with HTTP/2 + keepalive (see directions_client.py)
-  - TTL cache on Directions responses, keyed by rounded lat/lng buckets
-  - StopSnapIndex pre-built; nearest-stop lookup is ~O(n) over 512 stops (~0.3 ms)
-  - No Python-level blocking calls in the request path after startup
-  - Response returned as JSON (FastAPI + orjson if installed); FastAPI + Starlette
-    already pick the fastest available encoder
-
-Never 5xxs: on Directions upstream error we return `{status:"UPSTREAM_ERROR",routes:[]}`
-with the error detail in `meta`.
-"""
+"""/plan — trip planner: Google Directions transit mode + adjusted boarding ETAs."""
 from __future__ import annotations
 
 import logging

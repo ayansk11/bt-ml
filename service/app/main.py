@@ -1,12 +1,4 @@
-"""FastAPI entry — wires all spine routers + model loading on startup.
-
-Design: app.state carries the loaded static cache, live RT client, predictor,
-intercepts, metadata, and the Directions client. Routers pull from
-request.app.state so every endpoint is testable.
-
-Uses FastAPI lifespan (not deprecated on_event) so we can properly async-close
-the httpx directions client.
-"""
+"""FastAPI app entrypoint: loads static data + models on startup, wires routers."""
 from __future__ import annotations
 
 import logging
