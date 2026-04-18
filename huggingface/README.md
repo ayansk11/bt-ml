@@ -1,6 +1,6 @@
-# HuggingFace push — instructions for Ayan
+# HuggingFace push — instructions
 
-Ayan runs this manually. I (Claude) have **not** executed the upload and I do **not** have your token.
+This is run manually by the maintainer. Requires a personal `HF_TOKEN` (write-scoped).
 
 ## One-time: install the CLI + SDK
 

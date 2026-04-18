@@ -163,6 +163,6 @@ def test_nlq_unknown_falls_back(client):
     r = client.get("/nlq", params={"q": "hello world"})
     assert r.status_code == 200
     body = r.json()
-    # Without ANTHROPIC_API_KEY set in test env, claude path is skipped → unknown
+    # No regex match for free-text → unknown intent, source=none
     assert body["intent"] == "unknown"
-    assert body["parse_source"] in {"none", "claude"}
+    assert body["parse_source"] == "none"
