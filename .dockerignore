@@ -1,0 +1,29 @@
+# Don't ship build / dev / secret noise into the Docker image.
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+.DS_Store
+.git/
+.gitignore
+.env
+.env.*
+**/*.key
+**/*_token*
+
+# Local-only files not needed inside the container
+gtfs_logs/
+notebooks/
+scripts/
+features/
+huggingface/
+data/bt_prediction_error.parquet
+data/ground_truth_arrivals.parquet
+data/ground_truth_trip_exclusions.parquet
+data/training_rows.parquet
+data/bt_error_summary.json
+data/ground_truth_coverage.md
