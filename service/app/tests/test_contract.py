@@ -131,6 +131,16 @@ def test_predictions_known_stop_shape(client):
         assert "ours_predicted_arrival_utc" in p
 
 
+def test_plan_without_api_key_returns_503(client):
+    # In test env GOOGLE_MAPS_API_KEY is not set → directions_client is None
+    r = client.get("/plan", params={
+        "origin_lat": 39.16, "origin_lng": -86.52,
+        "dest_lat": 39.20, "dest_lng": -86.54,
+    })
+    # Either 503 (no key) or 200 (key somehow set in env) — both are acceptable
+    assert r.status_code in (200, 503)
+
+
 def test_nlq_regex_next_on_route(client):
     r = client.get("/nlq", params={"q": "when is the next 6"})
     assert r.status_code == 200

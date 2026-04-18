@@ -1,18 +1,24 @@
 """FastAPI entry — wires all spine routers + model loading on startup.
 
 Design: app.state carries the loaded static cache, live RT client, predictor,
-intercepts, and metadata. Routers pull from request.app.state. This keeps
-every endpoint testable by constructing a FastAPI app in tests and injecting
-mocks into app.state (see service/app/tests/).
+intercepts, metadata, and the Directions client. Routers pull from
+request.app.state so every endpoint is testable.
+
+Uses FastAPI lifespan (not deprecated on_event) so we can properly async-close
+the httpx directions client.
 """
 from __future__ import annotations
 
 import logging
+import os
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 
-from .routers import alerts, detections, health, nlq, predictions, routes, stats, stops, vehicles
+from .routers import alerts, detections, health, nlq, plan, predictions, routes, stats, stops, vehicles
+from .services.directions_client import DirectionsClient
 from .services.gtfs_client import GtfsRealtimeClient
 from .services.predictor import build_predictor
 from .services.static_cache import StaticCache
@@ -20,19 +26,9 @@ from .services.static_cache import StaticCache
 log = logging.getLogger("bt")
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(levelname)s %(message)s")
 
-app = FastAPI(title="BT Inference Service", version="1.0.0")
 
-# Allow the Android emulator + local dev origins
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-
-@app.on_event("startup")
-def _startup() -> None:
+@asynccontextmanager
+async def lifespan(app: FastAPI):
     log.info("Loading static GTFS...")
     sc = StaticCache()
     sc.load()
@@ -49,7 +45,38 @@ def _startup() -> None:
              predictor.model_source, len(intercepts.values))
 
     app.state.rt = GtfsRealtimeClient()
+
+    # Directions client — optional. If the key is missing we still boot; /plan
+    # will 503 with a clear message rather than crashing the service.
+    gmaps_key = os.environ.get("GOOGLE_MAPS_API_KEY") or os.environ.get("MAPS_API_KEY")
+    if gmaps_key:
+        app.state.directions = DirectionsClient(api_key=gmaps_key)
+        log.info("DirectionsClient ready (HTTP/2 enabled)")
+    else:
+        app.state.directions = None
+        log.warning("GOOGLE_MAPS_API_KEY not set; /plan will return 503")
+
     log.info("Startup complete")
+    try:
+        yield
+    finally:
+        if app.state.directions is not None:
+            await app.state.directions.close()
+        log.info("Shutdown complete")
+
+
+app = FastAPI(title="BT Inference Service", version="1.1.0", lifespan=lifespan)
+
+# Gzip helps the /plan payload (few KB) — low-overhead compression for anything >500B.
+app.add_middleware(GZipMiddleware, minimum_size=500)
+
+# Allow the Android emulator + local dev origins
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 # Routers
@@ -62,3 +89,4 @@ app.include_router(predictions.router)
 app.include_router(detections.router)
 app.include_router(stats.router)
 app.include_router(nlq.router)
+app.include_router(plan.router)
