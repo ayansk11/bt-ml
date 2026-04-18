@@ -131,9 +131,28 @@ def test_predictions_known_stop_shape(client):
         assert "ours_predicted_arrival_utc" in p
 
 
-def test_nlq_stub(client):
+def test_nlq_regex_next_on_route(client):
     r = client.get("/nlq", params={"q": "when is the next 6"})
     assert r.status_code == 200
     body = r.json()
     assert body["query"] == "when is the next 6"
-    assert body["parse_source"] == "none"  # Phase 4 stub
+    assert body["parse_source"] == "regex"
+    assert body["intent"] == "next_on_route"
+    assert body["route_id"] == "6"
+
+
+def test_nlq_regex_show_route(client):
+    r = client.get("/nlq", params={"q": "3E"})
+    assert r.status_code == 200
+    body = r.json()
+    assert body["intent"] == "show_route"
+    assert body["route_id"] == "3E"
+
+
+def test_nlq_unknown_falls_back(client):
+    r = client.get("/nlq", params={"q": "hello world"})
+    assert r.status_code == 200
+    body = r.json()
+    # Without ANTHROPIC_API_KEY set in test env, claude path is skipped → unknown
+    assert body["intent"] == "unknown"
+    assert body["parse_source"] in {"none", "claude"}
