@@ -2,7 +2,9 @@
 
 ML inference service for **BT Transit** - a Bloomington Transit Android replacement built at the IU Luddy Hackathon (3rd place, Bombay Boys).
 
-**Result: 64.8 s MAE at the 3-5 min prediction horizon vs. the official BT app's 94.3 s - a 31% improvement**, measured on 3,862 labelled predictions with 5-fold GroupKFold CV grouped on `trip_id`.
+**Current model: 50.2 s MAE at the 3-5 min prediction horizon vs. BT's 82.3 s baseline on the same dataset - a 39% improvement**, measured on 78,218 matched predictions with 5-fold GroupKFold CV grouped on `trip_id`. Trained on 693,648 labelled rows across 460 trips and 12 routes.
+
+The hackathon-submission model (trained on the smaller Apr 17-18 slice) reported 64.8 s MAE vs a 94.3 s BT baseline - a 31% improvement. The current model is a post-submission retrain on ~3x the data.
 
 The full Android app lives at [`ChiragDodia36/BT_transit_App`](https://github.com/ChiragDodia36/BT_transit_App). This repo is the FastAPI + LightGBM service the app talks to.
 
@@ -51,7 +53,7 @@ We learn the **residual** between BT's published trip-level delay and the inferr
 
 **Explicitly forbidden**: `service_id`, calendar date, anything that memorises weekday identity.
 
-**Validation**: 5-fold GroupKFold with `trip_id` as the group key (prevents within-trip leakage). Report MAE, signed bias, and per-route breakdown. Compare against the BT baseline (94.3 s MAE at 3-5 min horizon, measured on 3,862 labelled predictions).
+**Validation**: 5-fold GroupKFold with `trip_id` as the group key (prevents within-trip leakage). Report MAE, signed bias, and per-route breakdown. Compare against BT's own predictions on the same dataset (82.3 s MAE at 3-5 min horizon on 78,218 matched predictions in the current training cut; was 94.3 s on the smaller hackathon-submission slice).
 
 **Model**: LightGBM regressor, 8-12 features, mild regularisation. Trains in <5 min on laptop CPU - no Colab / GPU needed.
 
@@ -61,7 +63,7 @@ We learn the **residual** between BT's published trip-level delay and the inferr
 
 ## Methodology - A2 per-route intercept
 
-Per-route median signed error from `data/bt_prediction_error.parquet`. Routes with <30 samples get intercept `0` to avoid overfitting to noise. Route 6 was the primary target: observed bias +222 s, MAE 245 s before correction.
+Per-route median signed error from `data/bt_prediction_error.parquet`. Routes with <30 samples get intercept `0` to avoid overfitting to noise. Route 6 is the primary target: observed median correction +198 s on the current training cut (down from +222 s on the hackathon slice), still the largest intercept of any route.
 
 Applied *additively* on top of A1, or as the sole correction when A1 aborts.
 
