@@ -9,7 +9,7 @@
 ## One-time setup
 
 ### 1. Create an empty GitHub repo for bt-ml
-Go to https://github.com/new → name it e.g. `bt-ml` → **create it empty** (no README, no .gitignore). Copy the SSH URL (`git@github.com:Ayansk11/bt-ml.git`).
+Go to https://github.com/new -> name it e.g. `bt-ml` -> **create it empty** (no README, no .gitignore). Copy the SSH URL (`git@github.com:Ayansk11/bt-ml.git`).
 
 ### 2. Push bt-ml
 ```bash
@@ -19,14 +19,14 @@ git push -u origin main
 ```
 
 ### 3. Deploy on Railway
-1. https://railway.com/new → **Deploy from GitHub repo** → pick `bt-ml`.
+1. https://railway.com/new -> **Deploy from GitHub repo** -> pick `bt-ml`.
 2. Railway auto-detects `railway.json` and the `service/Dockerfile`.
 3. In the service's **Variables** tab add:
    ```
    GOOGLE_MAPS_API_KEY = AIzaSy...
    ```
    (Optionally: `LOG_LEVEL=INFO`.)
-4. In the service's **Settings → Networking** tab, click **Generate Domain**. Railway gives you a URL like `https://bt-ml-production-xxxx.up.railway.app/`.
+4. In the service's **Settings -> Networking** tab, click **Generate Domain**. Railway gives you a URL like `https://bt-ml-production-xxxx.up.railway.app/`.
 5. Hit `https://<your-railway-url>/healthz` - should return `{"status":"ok","model_source":"a1_lightgbm",...}` in a couple seconds.
 
 ### 4. Point the Android app at the deployed backend
@@ -55,15 +55,15 @@ curl -s "$BASE/plan?origin_lat=39.1674&origin_lng=-86.5240&dest_lat=39.2050&dest
 
 The Maps key is currently a hackathon-grade shared secret. After submission:
 1. Revoke at https://console.cloud.google.com/apis/credentials.
-2. Generate a new key with Application restrictions → HTTP referrers (for Android the Places SDK needs the key unrestricted; for backend use you can restrict to Railway's egress IPs).
+2. Generate a new key with Application restrictions -> HTTP referrers (for Android the Places SDK needs the key unrestricted; for backend use you can restrict to Railway's egress IPs).
 3. Update `GOOGLE_MAPS_API_KEY` in Railway Variables + `MAPS_API_KEY` in Android `local.properties`.
 
 ## Failure modes and where to look
 
 | Symptom | Probable cause | Fix |
 |---|---|---|
-| `/plan` returns `status: "UPSTREAM_ERROR"` | Google rate-limit or billing issue | Check Google Cloud → APIs & Services → Dashboard → Directions API traffic graph |
-| `/plan` returns `status: "REQUEST_DENIED"` | Directions API disabled on the key's project | APIs & Services → Library → Directions API → Enable |
+| `/plan` returns `status: "UPSTREAM_ERROR"` | Google rate-limit or billing issue | Check Google Cloud -> APIs & Services -> Dashboard -> Directions API traffic graph |
+| `/plan` returns `status: "REQUEST_DENIED"` | Directions API disabled on the key's project | APIs & Services -> Library -> Directions API -> Enable |
 | `/healthz` returns `a1_loaded: false` | `models/a1_delay_correction.joblib` wasn't copied into the image | Confirm `COPY models ./models` in `service/Dockerfile`; check Railway build logs |
 | Slow (>1 s) cold `/plan` latency | Healthy - Google upstream is ~300-500ms cold; warm cache hits are <20ms | Nothing to fix; monitor `meta.cache_hit` in responses |
 | Container restarts every few seconds | Check Railway logs for startup exception; most likely missing GTFS static files | Ensure `data/gtfs_static/*.txt` is committed to the repo |

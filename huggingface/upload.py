@@ -53,10 +53,10 @@ def upload_model(owner: str, token: str, dry_run: bool) -> None:
         HF_DIR / "model_card.md": "README.md",
     }
     _check_paths(list(model_files.keys()))
-    print(f"[upload] MODEL repo → {repo_id}")
+    print(f"[upload] MODEL repo -> {repo_id}")
     for src, dst in model_files.items():
         size_kb = src.stat().st_size / 1024
-        print(f"  upload {src.relative_to(ROOT)} → {dst}  ({size_kb:.1f} KB)")
+        print(f"  upload {src.relative_to(ROOT)} -> {dst}  ({size_kb:.1f} KB)")
     if dry_run:
         print("  (dry-run - no upload)")
         return
@@ -71,7 +71,7 @@ def upload_model(owner: str, token: str, dry_run: bool) -> None:
             repo_id=repo_id,
             repo_type="model",
         )
-    print(f"[upload] MODEL done → https://huggingface.co/{repo_id}")
+    print(f"[upload] MODEL done -> https://huggingface.co/{repo_id}")
 
 
 def upload_dataset(owner: str, token: str, dry_run: bool) -> None:
@@ -84,10 +84,10 @@ def upload_dataset(owner: str, token: str, dry_run: bool) -> None:
         HF_DIR / "dataset_card.md": "README.md",
     }
     _check_paths(list(data_files.keys()))
-    print(f"[upload] DATASET repo → {repo_id}")
+    print(f"[upload] DATASET repo -> {repo_id}")
     for src, dst in data_files.items():
         size_kb = src.stat().st_size / 1024
-        print(f"  upload {src.relative_to(ROOT)} → {dst}  ({size_kb:.1f} KB)")
+        print(f"  upload {src.relative_to(ROOT)} -> {dst}  ({size_kb:.1f} KB)")
     if dry_run:
         print("  (dry-run - no upload)")
         return
@@ -102,7 +102,7 @@ def upload_dataset(owner: str, token: str, dry_run: bool) -> None:
             repo_id=repo_id,
             repo_type="dataset",
         )
-    print(f"[upload] DATASET done → https://huggingface.co/datasets/{repo_id}")
+    print(f"[upload] DATASET done -> https://huggingface.co/datasets/{repo_id}")
 
 
 def main() -> int:

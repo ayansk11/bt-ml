@@ -11,7 +11,7 @@ tags:
   - bloomington
   - hackathon
 size_categories:
-  - 1K<n<10K
+  - 10K<n<100K
 ---
 
 # bt-gtfs-rt-labels-2026-04-18
@@ -22,7 +22,7 @@ Ground-truth arrival labels inferred from Bloomington Transit's public GTFS-RT f
 
 Two parquet files:
 
-1. **`ground_truth_arrivals.parquet`** - 994 rows. One row per `(trip_id, stop_sequence)`. Columns:
+1. **`ground_truth_arrivals.parquet`** - 11,283 rows. One row per `(trip_id, stop_sequence)`. Columns:
    - `trip_id`, `route_id`, `stop_id`, `stop_sequence`, `vehicle_id`, `service_id`, `service_date_local`
    - `scheduled_arrival_utc` (ISO UTC)
    - `inferred_actual_arrival_utc` (ISO UTC, null if `confidence == low`)
@@ -31,7 +31,7 @@ Two parquet files:
    - `excluded_reason` (empty for high/medium)
    - `first_pos_sample_utc`, `last_pos_sample_utc`
 
-2. **`bt_prediction_error.parquet`** - 28,658 rows. One row per prediction (per snapshot, per labelled `(trip_id, stop_sequence)`). Columns:
+2. **`bt_prediction_error.parquet`** - 693,648 rows. One row per prediction (per snapshot, per labelled `(trip_id, stop_sequence)`). Columns:
    - `trip_id`, `route_id`, `stop_id`, `stop_sequence`, `service_id`, `ground_truth_confidence`
    - `snapshot_ts_utc`, `snapshot_epoch`
    - `bt_delay_seconds` (BT's published trip-level delay at the snapshot)
@@ -44,7 +44,7 @@ Two parquet files:
 
 Logger polls `position_updates.pb` + `trip_updates.pb` + `alerts.pb` every 10 s. Raw `.pb` snapshots are **not** in this dataset (refreshable from S3) but the derived labels are.
 
-Window: 2026-04-18 00:35:14Z → 01:21:37Z (≈46 min, Friday evening EDT).
+Window: 2026-04-17 through 2026-04-19 (~50 h, spanning Friday evening, Saturday full day, and Sunday).
 
 ## Inference method for actuals
 
@@ -52,18 +52,18 @@ Per `(trip_id, vehicle_id)`:
 
 1. Exclude the trip if consecutive `current_stop_sequence` values go backwards, OR gap > 3 min between samples.
 2. For each scheduled stop on that trip:
-   - **HIGH**: first sample with `current_stop_sequence == N` AND `current_status == STOPPED_AT` → that `vehicle.timestamp` is the actual arrival.
+   - **HIGH**: first sample with `current_stop_sequence == N` AND `current_status == STOPPED_AT` -> that `vehicle.timestamp` is the actual arrival.
    - **MEDIUM**: midpoint between last sample at `N−1` and first sample at `N+1`.
    - **LOW / excluded**: neither condition satisfied.
 3. Scheduled arrival from static `stop_times.txt` (HH:MM:SS, HH≥24 allowed for overnight wrap), combined with `service_date = local_date(first_pos_sample)`, localised in `America/New_York` and converted to UTC.
 
-Label quality: 11.3 % high, 32.4 % medium, 56.4 % low (excluded) - see `ground_truth_coverage.md` in the repo.
+Label quality: 18.3 % high, 53.2 % medium, 28.5 % low (excluded).
 
 ## Known limitations
 
-- **Temporal coverage**: one ≈46-min window on a Friday evening. Weekday bias by construction.
-- **Route coverage**: 12 of BT's 16 routes have any labels; routes 12 / 13 / 14 / 122927 are unobserved.
-- **Only 37 unique trip-instances** contributed labels. Generalisation to other trip-instances is not guaranteed.
+- **Temporal coverage**: ~50 h across 2026-04-17 to 2026-04-19 (Friday evening + Saturday + Sunday). No Mon-Thu coverage; no holiday / severe-weather windows.
+- **Route coverage**: 12 of BT's 16 routes have labels; routes 12 / 13 / 14 / 122927 are unobserved.
+- **460 unique trips** contributed labels across 487 `(trip, vehicle)` instances.
 - **Timezone note**: BT's `agency.txt` declares `America/New_York` (not the canonical `America/Indiana/Indianapolis`). Both have the same UTC offset in 2026 but use with care.
 
 ## Licence

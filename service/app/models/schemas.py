@@ -38,7 +38,7 @@ class VehicleDto(BaseModel):
     vehicle_id: str
     label: Optional[str] = None
     trip_id: Optional[str] = None
-    route_id: Optional[str] = None       # derived from trip_id → trips.txt lookup
+    route_id: Optional[str] = None       # derived from trip_id -> trips.txt lookup
     lat: float
     lon: float
     bearing: float

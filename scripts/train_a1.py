@@ -230,7 +230,7 @@ def main():
     if horizon_3_5:
         print(f"[train_a1] A1 OOF 3-5 min horizon MAE      = {horizon_3_5['mae']:.1f}s   "
               f"bias = {horizon_3_5['bias']:+.1f}s   RMSE = {horizon_3_5['rmse']:.1f}s")
-    print(f"[train_a1] BT headline (94.3s)  →  A1 headline ({headline_cv_mae:.1f}s)  "
+    print(f"[train_a1] BT headline (94.3s)  ->  A1 headline ({headline_cv_mae:.1f}s)  "
           f"= {metadata['improvement_vs_bt_headline_s']:+.1f}s  "
           f"({metadata['improvement_pct']:+.1f}%)")
     print(f"[train_a1] ABORT FLAG = {abort}    model_source = {model_source}")

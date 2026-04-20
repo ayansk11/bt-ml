@@ -3,8 +3,8 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # System deps:
-#  - libgomp1  → LightGBM OpenMP runtime
-#  - curl      → health probe
+#  - libgomp1  -> LightGBM OpenMP runtime
+#  - curl      -> health probe
 RUN apt-get update && apt-get install -y --no-install-recommends \
       libgomp1 \
       curl \

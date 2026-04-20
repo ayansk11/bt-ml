@@ -45,7 +45,7 @@ def _regex_parse(q: str) -> Optional[dict]:
         tail = m.group(1).strip(" .?!")
         if tail:
             return {"intent": "stop_search", "stop_id": None, "direction": None, "stop_query": tail}
-    # standalone "6" / "3E" → show_route
+    # standalone "6" / "3E" -> show_route
     if re.fullmatch(_ROUTE_TOKEN, q, re.IGNORECASE):
         return {"intent": "show_route", "route_id": _canonical_route(q)}
     return None

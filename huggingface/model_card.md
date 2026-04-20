@@ -29,17 +29,17 @@ BT's GTFS-RT feed publishes **one trip-level delay per trip**, applied identical
 
 ## Out-of-scope / limitations
 
-- **Distribution shift**: training data is weekday evening only (service_ids 109 + 49, Friday 20:00-21:00 EDT window). Saturday demo runs under service_ids 26/28. The feature set excludes `service_id` to encourage generalisation, but transfer across weekday/weekend is not validated.
-- **Sample size**: only 37 unique trip-instances contributed labels. 12 of BT's 16 routes are represented; routes 12, 13, 14, 122927 are unseen.
-- **Label noise**: 74 % of training rows use `midpoint` inference for the actual (±15 s noise floor). The remaining 26 % (`STOPPED_AT` observation) are high-confidence.
+- **Distribution shift**: training data spans 2026-04-17 Friday evening through 2026-04-19 Sunday night (~50 h, mixed weekday / weekend). The feature set excludes `service_id` and calendar date to encourage generalisation across days; Mon-Thu coverage is absent.
+- **Sample size**: 460 unique trips across 12 of BT's 16 routes; routes 12, 13, 14, 122927 are unseen.
+- **Label noise**: 74 % of usable training labels come from `midpoint` inference (±15 s noise floor); the remaining 26 % are high-confidence `STOPPED_AT` observations.
 - **No holiday / severe weather handling.**
 
 ## Training data
 
-Labels derived from live GTFS-RT snapshots of BT's `position_updates.pb` and `trip_updates.pb`, collected at 10 s cadence on 2026-04-18 between 00:35 and 01:22 UTC (≈46 min window after logger restarts).
+Labels derived from live GTFS-RT snapshots of BT's `position_updates.pb` and `trip_updates.pb`, collected at 10 s cadence from 2026-04-17 through 2026-04-19 (~50 h window covering Friday evening, Saturday full day, and Sunday).
 
-- `ground_truth_arrivals.parquet` - 994 (trip, stop) labels; 112 high + 323 medium + 559 excluded (no signal in window).
-- `bt_prediction_error.parquet` - 28,658 BT predictions scored against those labels; target used for training is `actual - bt_predicted` (signed seconds).
+- `ground_truth_arrivals.parquet` - 11,283 (trip, stop) labels; 2,063 high + 6,003 medium + 3,217 excluded (no signal in window).
+- `bt_prediction_error.parquet` - 693,648 BT predictions scored against those labels; target used for training is `actual - bt_predicted` (signed seconds).
 
 See the companion dataset card.
 
@@ -49,7 +49,7 @@ All derived from timestamps or static GTFS - **no `service_id`, no calendar date
 
 | Feature | Source |
 |---|---|
-| `hour_of_day`, `minute_of_hour`, `day_of_week`, `is_weekend` | `snapshot_ts_utc` → `America/New_York` |
+| `hour_of_day`, `minute_of_hour`, `day_of_week`, `is_weekend` | `snapshot_ts_utc` -> `America/New_York` |
 | `route_id` (categorical) | `trips.txt` via `trip_id` |
 | `bt_trip_delay_seconds` | `trip_updates.pb` current stop_time_update.arrival.delay |
 | `trip_progress_fraction` | `stop_sequence / total_stops_on_trip` |
@@ -68,41 +68,41 @@ All derived from timestamps or static GTFS - **no `service_id`, no calendar date
 
 ## Evaluation
 
-Against BT's own published-delay passthrough at the 3-5 min prediction horizon (the most decision-relevant horizon for riders).
+Against BT's own published-delay passthrough at the 3-5 min prediction horizon (the most decision-relevant horizon for riders), 5-fold GroupKFold OOF on `trip_id`.
 
 | Metric | BT passthrough | A1 (ours) | Δ |
 |---|---:|---:|---:|
-| MAE @ 3-5 min horizon (s) | 94.3 | **84.1** | −10.2 (−10.8 %) |
-| MAE overall (s) | 116.0 | **91.7** | −24.3 (−20.9 %) |
-| Bias @ 3-5 min (s) | +21.3 avg across buckets | +0.4 | - |
-| RMSE @ 3-5 min (s) | - | 120.6 | - |
+| MAE @ 3-5 min horizon (s) | 82.3 | **50.2** | -32.1 (-39.0 %) |
+| MAE overall (s) | 136.7 | **72.5** | -64.2 (-47.0 %) |
+| Bias @ 3-5 min (s) | - | +0.1 | - |
+| RMSE @ 3-5 min (s) | - | 69.9 | - |
 
 Per-route (OOF MAE vs passthrough):
 
 | Route | n | Passthrough | A1 | Δ |
 |---|---:|---:|---:|---:|
-| 1 | 2036 | 109.4 | 67.4 | −42.1 |
-| 2S | 610 | 75.7 | 87.6 | +11.9 |
-| 2W | 834 | 138.7 | 113.9 | −24.7 |
-| 3E | 5091 | 114.7 | 92.2 | −22.6 |
-| 3W | 4716 | 115.8 | 83.3 | −32.5 |
-| 4S | 2085 | 82.5 | 83.4 | +0.9 |
-| 4W | 2885 | 86.5 | 87.2 | +0.7 |
-| 5 | 1828 | 42.9 | 38.5 | −4.4 |
-| 6 | 2220 | 245.4 | 192.1 | −53.3 |
-| 7 | 2733 | 169.1 | 128.9 | −40.2 |
-| 9 | 3208 | 75.2 | 50.4 | −24.8 |
-| 11 | 412 | 149.7 | 103.8 | −45.9 |
+| 3W | 108,920 | 134.0 | 82.3 | -51.7 |
+| 3E | 104,775 |  92.9 | 61.9 | -31.0 |
+| 7  |  91,211 | 101.1 | 62.0 | -39.1 |
+| 9  |  88,530 | 107.0 | 53.1 | -53.9 |
+| 6  |  82,852 | 338.5 | 162.3 | -176.2 |
+| 4W |  50,200 | 110.3 | 52.2 | -58.1 |
+| 5  |  49,137 | 100.8 | 44.3 | -56.5 |
+| 1  |  40,477 | 120.1 | 58.0 | -62.0 |
+| 4S |  34,372 | 112.4 | 46.8 | -65.5 |
+| 2W |  21,556 | 103.8 | 52.6 | -51.1 |
+| 2S |  13,387 |  99.9 | 53.3 | -46.6 |
+| 11 |   8,231 | 116.2 | 50.9 | -65.3 |
 
-The biggest wins are on routes BT handles worst (6 / 7 / 1 / 11). A few routes (2S, 4S, 4W) regress slightly within the noise floor.
+A1 improves every route. Route 6 has the largest absolute gain (-176 s MAE) and is the hardest residual; routes 1, 4S, 11 show the largest relative improvements.
 
 ## Top features by gain
 
-1. `trip_progress_fraction`
-2. `route_id`
-3. `bt_trip_delay_seconds`
-4. `route_length_km`
-5. `average_stop_spacing_m`
+1. `prediction_horizon_seconds`
+2. `bt_trip_delay_seconds`
+3. `route_id`
+4. `trip_progress_fraction`
+5. `hour_of_day`
 
 ## Companion artifact - A2 per-route intercepts
 
@@ -145,4 +145,4 @@ If this model is useful to you:
 
 ## Contact
 
-Repository: https://github.com/ChiragDodia36/Luddy_hackathon_Case3 (Android client) and local training repo `bt-ml`.
+Repositories: https://github.com/ayansk11/bt-ml (this ML service) and https://github.com/ChiragDodia36/BT_transit_App (Android client).

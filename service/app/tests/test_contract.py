@@ -132,7 +132,7 @@ def test_predictions_known_stop_shape(client):
 
 
 def test_plan_without_api_key_returns_503(client):
-    # In test env GOOGLE_MAPS_API_KEY is not set → directions_client is None
+    # In test env GOOGLE_MAPS_API_KEY is not set -> directions_client is None
     r = client.get("/plan", params={
         "origin_lat": 39.16, "origin_lng": -86.52,
         "dest_lat": 39.20, "dest_lng": -86.54,
@@ -163,6 +163,6 @@ def test_nlq_unknown_falls_back(client):
     r = client.get("/nlq", params={"q": "hello world"})
     assert r.status_code == 200
     body = r.json()
-    # Without ANTHROPIC_API_KEY set in test env, claude path is skipped → unknown
+    # Without ANTHROPIC_API_KEY set in test env, claude path is skipped -> unknown
     assert body["intent"] == "unknown"
     assert body["parse_source"] in {"none", "claude"}

@@ -17,7 +17,7 @@ cd /Users/ayansk11/Desktop/bt-ml
 cd /Users/ayansk11/Desktop/bt-ml
 
 # 1. Revoke the old token you pasted into chat earlier.
-#    Go to https://huggingface.co/settings/tokens → delete it.
+#    Go to https://huggingface.co/settings/tokens -> delete it.
 
 # 2. Generate a fresh token scoped to 'write' at:
 #    https://huggingface.co/settings/tokens

@@ -168,7 +168,7 @@ def _trips_for_route(sc: StaticCache, route_id: str):
 
 
 def build_trip_plan(directions_payload: dict, sc: StaticCache, predictor, intercepts) -> dict:
-    """Top-level transform from Google response → our wire format."""
+    """Top-level transform from Google response -> our wire format."""
     status = directions_payload.get("status", "ERROR")
     routes_out = []
     snap = _StopSnapIndex.from_cache(sc)

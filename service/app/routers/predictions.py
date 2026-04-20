@@ -20,7 +20,7 @@ router = APIRouter()
 
 
 def _trip_delay_lookup(trip_updates_feed) -> dict[str, dict[int, int]]:
-    """trip_id → {stop_sequence → arrival.delay (seconds)}; plus a -1 key = trip-level median."""
+    """trip_id -> {stop_sequence -> arrival.delay (seconds)}; plus a -1 key = trip-level median."""
     out: dict[str, dict[int, int]] = defaultdict(dict)
     if not trip_updates_feed:
         return out
@@ -45,7 +45,7 @@ def _trip_delay_lookup(trip_updates_feed) -> dict[str, dict[int, int]]:
 
 
 def _trip_vehicle_lookup(positions_feed) -> dict[str, dict]:
-    """trip_id → {vehicle_id, current_stop_sequence, pos_ts, staleness}"""
+    """trip_id -> {vehicle_id, current_stop_sequence, pos_ts, staleness}"""
     out: dict[str, dict] = {}
     if not positions_feed:
         return out

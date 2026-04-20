@@ -100,7 +100,7 @@ class BaselinePredictor:
 
 
 def build_predictor() -> tuple[Predictor, RouteIntercepts, dict]:
-    """Load metadata to determine abort flag → pick A1 or Baseline. Never raises."""
+    """Load metadata to determine abort flag -> pick A1 or Baseline. Never raises."""
     intercepts = load_route_intercepts()
     meta_path = MODELS_DIR / "a1_metadata.json"
     metadata: dict = {}

@@ -4,7 +4,7 @@ Input:  data/bt_prediction_error.parquet (per-prediction rows with BT delay + in
         data/gtfs_static/{trips,stop_times,shapes,routes}.txt
 Output: data/training_rows.parquet with engineered features + target.
 
-Features (all designed to generalise weekday→Saturday):
+Features (all designed to generalise weekday->Saturday):
   hour_of_day, minute_of_hour, day_of_week, is_weekend      (derived from snapshot_ts, America/New_York)
   route_id (categorical)
   bt_trip_delay_seconds                                      (per-prediction BT delay)

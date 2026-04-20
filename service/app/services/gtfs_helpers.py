@@ -9,7 +9,7 @@ from ..config import AGENCY_TZ, UTC
 
 
 def scheduled_local_to_utc(service_date: date, arrival_time_str: str) -> Optional[datetime]:
-    """GTFS 'HH:MM:SS' (HH may be ≥24) + service_date (local) → tz-aware UTC datetime."""
+    """GTFS 'HH:MM:SS' (HH may be ≥24) + service_date (local) -> tz-aware UTC datetime."""
     try:
         h, m, s = (int(x) for x in arrival_time_str.split(":"))
     except Exception:

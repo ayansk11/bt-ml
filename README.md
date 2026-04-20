@@ -29,12 +29,12 @@ FastAPI service in `service/app/main.py`. Dockerised, deployed on Railway (see [
 | Endpoint | Purpose |
 |---|---|
 | `GET /healthz` | Health + model-source indicator |
-| `GET /predictions?stop_id=…` | Per-stop arrival predictions (Scheduled / BT / Ours with confidence tier) |
-| `GET /trip_eta?trip_id=…` | Adjusted ETAs across the remaining stops of a trip |
+| `GET /predictions?stop_id=...` | Per-stop arrival predictions (Scheduled / BT / Ours with confidence tier) |
+| `GET /trip_eta?trip_id=...` | Adjusted ETAs across the remaining stops of a trip |
 | `GET /detections/bunching` | Buses of the same route within 200 m |
 | `GET /stats` | Live BT vs. Ours MAE, fleet size, stale-vehicle count |
-| `GET /nlq?q=…` | Natural-language query (regex-first, LLM fallback) |
-| `GET /plan?origin_lat=…&dest_lat=…` | Google Directions transit routes enriched with A1+A2 boarding ETAs |
+| `GET /nlq?q=...` | Natural-language query (regex-first, LLM fallback) |
+| `GET /plan?origin_lat=...&dest_lat=...` | Google Directions transit routes enriched with A1+A2 boarding ETAs |
 
 ---
 
@@ -82,9 +82,9 @@ curl http://localhost:8000/healthz
 ## Training loop
 
 ```bash
-.venv/bin/python features/build_dataset.py           # → data/training_rows.parquet
-.venv/bin/python scripts/train_a1.py                 # → models/a1_delay_correction.joblib + metadata
-.venv/bin/python scripts/build_route_intercepts.py   # → models/route_intercepts.json
+.venv/bin/python features/build_dataset.py           # -> data/training_rows.parquet
+.venv/bin/python scripts/train_a1.py                 # -> models/a1_delay_correction.joblib + metadata
+.venv/bin/python scripts/build_route_intercepts.py   # -> models/route_intercepts.json
 ```
 
 ---

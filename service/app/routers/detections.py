@@ -19,7 +19,7 @@ def bunching(request: Request) -> BunchingResponse:
     if not feed:
         return BunchingResponse(generated_at_utc=now.isoformat(), events=[])
 
-    # Group live vehicles by route_id (derived from trip → static)
+    # Group live vehicles by route_id (derived from trip -> static)
     by_route: dict[str, list[tuple[str, float, float]]] = {}
     for e in feed.feed_message.entity:
         v = e.vehicle
