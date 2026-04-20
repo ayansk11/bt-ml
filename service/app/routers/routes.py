@@ -1,4 +1,4 @@
-"""GET /routes — static route catalogue."""
+"""GET /routes - static route catalogue."""
 from __future__ import annotations
 
 from fastapi import APIRouter, Request

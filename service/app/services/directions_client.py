@@ -12,7 +12,7 @@ import httpx
 log = logging.getLogger("bt.directions")
 
 GOOGLE_URL = "https://maps.googleapis.com/maps/api/directions/json"
-CACHE_TTL_SEC = 60        # brief — transit schedules shift with the hour
+CACHE_TTL_SEC = 60        # brief - transit schedules shift with the hour
 CACHE_MAX_ENTRIES = 512
 ROUND_DP = 4              # ~11m precision at Bloomington latitudes
 
@@ -24,7 +24,7 @@ class _Entry:
 
 
 class DirectionsClient:
-    """Singleton — instantiated once by main.py at startup, closed at shutdown."""
+    """Singleton - instantiated once by main.py at startup, closed at shutdown."""
 
     def __init__(self, api_key: str):
         self.api_key = api_key

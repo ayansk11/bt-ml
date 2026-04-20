@@ -1,4 +1,4 @@
-"""/nlq — parse short natural-language transit queries into intents."""
+"""/nlq - parse short natural-language transit queries into intents."""
 from __future__ import annotations
 
 import os
@@ -92,7 +92,7 @@ def _claude_parse(q: str) -> Optional[dict]:
 @router.get("/nlq", response_model=NlqResponse)
 def nlq(q: str = Query(..., description="natural language query")) -> NlqResponse:
     t0 = time.perf_counter()
-    # Regex first — always on, <1ms
+    # Regex first - always on, <1ms
     regex_hit = _regex_parse(q)
     if regex_hit:
         return NlqResponse(

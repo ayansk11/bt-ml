@@ -29,7 +29,7 @@ BT's GTFS-RT feed publishes **one trip-level delay per trip**, applied identical
 
 ## Out-of-scope / limitations
 
-- **Distribution shift**: training data is weekday evening only (service_ids 109 + 49, Friday 20:00–21:00 EDT window). Saturday demo runs under service_ids 26/28. The feature set excludes `service_id` to encourage generalisation, but transfer across weekday/weekend is not validated.
+- **Distribution shift**: training data is weekday evening only (service_ids 109 + 49, Friday 20:00-21:00 EDT window). Saturday demo runs under service_ids 26/28. The feature set excludes `service_id` to encourage generalisation, but transfer across weekday/weekend is not validated.
 - **Sample size**: only 37 unique trip-instances contributed labels. 12 of BT's 16 routes are represented; routes 12, 13, 14, 122927 are unseen.
 - **Label noise**: 74 % of training rows use `midpoint` inference for the actual (±15 s noise floor). The remaining 26 % (`STOPPED_AT` observation) are high-confidence.
 - **No holiday / severe weather handling.**
@@ -38,14 +38,14 @@ BT's GTFS-RT feed publishes **one trip-level delay per trip**, applied identical
 
 Labels derived from live GTFS-RT snapshots of BT's `position_updates.pb` and `trip_updates.pb`, collected at 10 s cadence on 2026-04-18 between 00:35 and 01:22 UTC (≈46 min window after logger restarts).
 
-- `ground_truth_arrivals.parquet` — 994 (trip, stop) labels; 112 high + 323 medium + 559 excluded (no signal in window).
-- `bt_prediction_error.parquet` — 28,658 BT predictions scored against those labels; target used for training is `actual - bt_predicted` (signed seconds).
+- `ground_truth_arrivals.parquet` - 994 (trip, stop) labels; 112 high + 323 medium + 559 excluded (no signal in window).
+- `bt_prediction_error.parquet` - 28,658 BT predictions scored against those labels; target used for training is `actual - bt_predicted` (signed seconds).
 
 See the companion dataset card.
 
 ## Features (13)
 
-All derived from timestamps or static GTFS — **no `service_id`, no calendar date, no feature that memorises weekday identity**.
+All derived from timestamps or static GTFS - **no `service_id`, no calendar date, no feature that memorises weekday identity**.
 
 | Feature | Source |
 |---|---|
@@ -68,14 +68,14 @@ All derived from timestamps or static GTFS — **no `service_id`, no calendar da
 
 ## Evaluation
 
-Against BT's own published-delay passthrough at the 3–5 min prediction horizon (the most decision-relevant horizon for riders).
+Against BT's own published-delay passthrough at the 3-5 min prediction horizon (the most decision-relevant horizon for riders).
 
 | Metric | BT passthrough | A1 (ours) | Δ |
 |---|---:|---:|---:|
-| MAE @ 3–5 min horizon (s) | 94.3 | **84.1** | −10.2 (−10.8 %) |
+| MAE @ 3-5 min horizon (s) | 94.3 | **84.1** | −10.2 (−10.8 %) |
 | MAE overall (s) | 116.0 | **91.7** | −24.3 (−20.9 %) |
-| Bias @ 3–5 min (s) | +21.3 avg across buckets | +0.4 | — |
-| RMSE @ 3–5 min (s) | — | 120.6 | — |
+| Bias @ 3-5 min (s) | +21.3 avg across buckets | +0.4 | - |
+| RMSE @ 3-5 min (s) | - | 120.6 | - |
 
 Per-route (OOF MAE vs passthrough):
 
@@ -104,7 +104,7 @@ The biggest wins are on routes BT handles worst (6 / 7 / 1 / 11). A few routes (
 4. `route_length_km`
 5. `average_stop_spacing_m`
 
-## Companion artifact — A2 per-route intercepts
+## Companion artifact - A2 per-route intercepts
 
 `route_intercepts.json` holds a simple `median(actual − bt_predicted)` per route for 12 routes (≥30 samples each). The inference service applies the intercept instead of A1 when the route is unseen by A1, and applies the intercept on top of zero when A1 aborts (falls back to passthrough).
 

@@ -178,7 +178,7 @@ def build() -> pd.DataFrame:
         np.nan,
     )
 
-    # upstream trend (requires bt_trip_delay_seconds column, which we renamed above — rebuild trip_level under original name)
+    # upstream trend (requires bt_trip_delay_seconds column, which we renamed above - rebuild trip_level under original name)
     tmp = pe.rename(columns={"bt_trip_delay_seconds": "bt_delay_seconds"})
     tmp = add_upstream_trend(tmp)
     pe["upstream_delay_trend_60s"] = tmp["upstream_delay_trend_60s"]

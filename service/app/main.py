@@ -38,7 +38,7 @@ async def lifespan(app: FastAPI):
 
     app.state.rt = GtfsRealtimeClient()
 
-    # Directions client — optional. If the key is missing we still boot; /plan
+    # Directions client - optional. If the key is missing we still boot; /plan
     # will 503 with a clear message rather than crashing the service.
     gmaps_key = os.environ.get("GOOGLE_MAPS_API_KEY") or os.environ.get("MAPS_API_KEY")
     if gmaps_key:
@@ -59,7 +59,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="BT Inference Service", version="1.1.0", lifespan=lifespan)
 
-# Gzip helps the /plan payload (few KB) — low-overhead compression for anything >500B.
+# Gzip helps the /plan payload (few KB) - low-overhead compression for anything >500B.
 app.add_middleware(GZipMiddleware, minimum_size=500)
 
 # Allow the Android emulator + local dev origins

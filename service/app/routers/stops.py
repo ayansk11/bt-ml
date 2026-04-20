@@ -1,4 +1,4 @@
-"""GET /stops — static stop catalogue with optional route filter."""
+"""GET /stops - static stop catalogue with optional route filter."""
 from __future__ import annotations
 
 from typing import Optional

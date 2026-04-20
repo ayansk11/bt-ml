@@ -1,4 +1,4 @@
-"""GET /detections/bunching — pairs of same-route vehicles within BUNCHING_RADIUS_M."""
+"""GET /detections/bunching - pairs of same-route vehicles within BUNCHING_RADIUS_M."""
 from __future__ import annotations
 
 from fastapi import APIRouter, Request

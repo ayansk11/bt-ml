@@ -1,4 +1,4 @@
-"""GET /healthz — liveness + model state."""
+"""GET /healthz - liveness + model state."""
 from __future__ import annotations
 
 from fastapi import APIRouter, Request

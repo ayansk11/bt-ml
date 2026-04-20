@@ -1,4 +1,4 @@
-"""/predictions — per-stop arrivals with scheduled / agency / adjusted ETAs."""
+"""/predictions - per-stop arrivals with scheduled / agency / adjusted ETAs."""
 from __future__ import annotations
 
 from collections import defaultdict
@@ -188,7 +188,7 @@ def predictions(
         generated_at_utc=now.isoformat(),
         feed_header_ts_utc=(scheduled_local_to_utc(service_date, "00:00:00").replace(tzinfo=None).isoformat() if False else None) or (
             None if not feed_header_ts else
-            f"{feed_header_ts}"  # keep simple — epoch seconds string; Android can parse
+            f"{feed_header_ts}"  # keep simple - epoch seconds string; Android can parse
         ),
         feed_header_age_seconds=int(epoch_now() - feed_header_ts) if feed_header_ts else None,
         predictions=preds,

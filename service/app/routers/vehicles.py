@@ -1,4 +1,4 @@
-"""GET /vehicles — live bus positions, enriched with route_id and stale flag."""
+"""GET /vehicles - live bus positions, enriched with route_id and stale flag."""
 from __future__ import annotations
 
 from fastapi import APIRouter, Request

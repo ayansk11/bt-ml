@@ -3,7 +3,7 @@
 Target: target_correction_seconds = actual - bt_predicted  (signed seconds)
 
 Validation: 5-fold GroupKFold on trip_id (no within-trip leakage).
-Abort if 5-fold CV MAE at 3-5 min horizon >= 94.3s (BT baseline), per the spec —
+Abort if 5-fold CV MAE at 3-5 min horizon >= 94.3s (BT baseline), per the spec -
 we still SAVE the model but mark it as baseline_passthrough in metadata so the
 service falls back to passthrough + A2 route intercepts only.
 

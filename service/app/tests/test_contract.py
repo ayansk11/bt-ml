@@ -1,4 +1,4 @@
-"""Contract tests — run against in-process FastAPI app with real models + mock RT feeds.
+"""Contract tests - run against in-process FastAPI app with real models + mock RT feeds.
 
 `pytest service/app/tests -q` from repo root.
 """
@@ -114,7 +114,7 @@ def test_predictions_known_stop_shape(client):
     # Pick a real stop id by hitting /stops first
     all_stops = client.get("/stops").json()
     assert all_stops
-    # Use a stop that actually appears in stop_times — grab the first stop_id that shows up as a trip stop
+    # Use a stop that actually appears in stop_times - grab the first stop_id that shows up as a trip stop
     # (any real stop_id should work since static cache indexes by stop_times)
     stop_id = all_stops[0]["stop_id"]
     r = client.get("/predictions", params={"stop_id": stop_id, "horizon_minutes": 60})
@@ -137,7 +137,7 @@ def test_plan_without_api_key_returns_503(client):
         "origin_lat": 39.16, "origin_lng": -86.52,
         "dest_lat": 39.20, "dest_lng": -86.54,
     })
-    # Either 503 (no key) or 200 (key somehow set in env) — both are acceptable
+    # Either 503 (no key) or 200 (key somehow set in env) - both are acceptable
     assert r.status_code in (200, 503)
 
 

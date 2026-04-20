@@ -86,7 +86,7 @@ def _compact_transit_step(step: dict, sc: StaticCache, snap: _StopSnapIndex,
     arr_time_text = td.get("arrival_time", {}).get("text")
     arr_time_value = td.get("arrival_time", {}).get("value")
 
-    # AI correction on boarding ETA — best effort
+    # AI correction on boarding ETA - best effort
     ai_adjusted_departure_ts: Optional[int] = None
     ai_correction_s: Optional[float] = None
     confidence: Optional[str] = None
@@ -161,7 +161,7 @@ def _compact_transit_step(step: dict, sc: StaticCache, snap: _StopSnapIndex,
 
 
 def _trips_for_route(sc: StaticCache, route_id: str):
-    """Lazy generator — stops the search early once seq is found."""
+    """Lazy generator - stops the search early once seq is found."""
     for tid, trip in sc.trips_by_id.items():
         if trip.route_id == route_id:
             yield (tid, route_id)

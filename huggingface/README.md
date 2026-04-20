@@ -1,10 +1,10 @@
-# HuggingFace push — instructions
+# HuggingFace push - instructions
 
 This is run manually by the maintainer. Requires a personal `HF_TOKEN` (write-scoped).
 
 ## One-time: install the CLI + SDK
 
-Already covered by the workspace venv — `huggingface_hub` is a transitive dep of `transformers` and should already be importable. If not:
+Already covered by the workspace venv - `huggingface_hub` is a transitive dep of `transformers` and should already be importable. If not:
 
 ```bash
 cd /Users/ayansk11/Desktop/bt-ml
@@ -37,17 +37,17 @@ export HF_TOKEN=hf_your_new_token_here   # NEVER commit this
 ## What gets pushed
 
 ### Model repo `Ayansk11/bt-eta-correction-a1`
-- `a1_delay_correction.joblib` — trained LightGBM
-- `a1_metadata.json` — CV metrics, feature importance, training-sample counts
-- `route_intercepts.json` — A2 per-route intercept table
-- `README.md` — contents of `huggingface/model_card.md`
+- `a1_delay_correction.joblib` - trained LightGBM
+- `a1_metadata.json` - CV metrics, feature importance, training-sample counts
+- `route_intercepts.json` - A2 per-route intercept table
+- `README.md` - contents of `huggingface/model_card.md`
 
 ### Dataset repo `Ayansk11/bt-gtfs-rt-labels-2026-04-18`
-- `data/ground_truth_arrivals.parquet` — 994 labelled (trip, stop) pairs
-- `data/ground_truth_trip_exclusions.parquet` — excluded trips
-- `data/bt_prediction_error.parquet` — 28,658 BT predictions scored
-- `coverage.md` — narrative coverage report
-- `README.md` — contents of `huggingface/dataset_card.md`
+- `data/ground_truth_arrivals.parquet` - 994 labelled (trip, stop) pairs
+- `data/ground_truth_trip_exclusions.parquet` - excluded trips
+- `data/bt_prediction_error.parquet` - 28,658 BT predictions scored
+- `coverage.md` - narrative coverage report
+- `README.md` - contents of `huggingface/dataset_card.md`
 
 ## What does NOT get pushed (and should never)
 

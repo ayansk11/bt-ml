@@ -1,4 +1,4 @@
-"""/plan — trip planner: Google Directions transit mode + adjusted boarding ETAs."""
+"""/plan - trip planner: Google Directions transit mode + adjusted boarding ETAs."""
 from __future__ import annotations
 
 import logging

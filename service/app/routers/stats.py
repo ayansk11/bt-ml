@@ -1,4 +1,4 @@
-"""GET /stats — live BT-vs-ours audit numbers, plus fleet health for D1 dashboard."""
+"""GET /stats - live BT-vs-ours audit numbers, plus fleet health for D1 dashboard."""
 from __future__ import annotations
 
 from fastapi import APIRouter, Request

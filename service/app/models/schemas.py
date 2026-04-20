@@ -1,4 +1,4 @@
-"""Pydantic response models — the wire contract the Android client consumes."""
+"""Pydantic response models - the wire contract the Android client consumes."""
 from __future__ import annotations
 
 from typing import Literal, Optional

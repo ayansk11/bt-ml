@@ -22,7 +22,7 @@ Ground-truth arrival labels inferred from Bloomington Transit's public GTFS-RT f
 
 Two parquet files:
 
-1. **`ground_truth_arrivals.parquet`** — 994 rows. One row per `(trip_id, stop_sequence)`. Columns:
+1. **`ground_truth_arrivals.parquet`** - 994 rows. One row per `(trip_id, stop_sequence)`. Columns:
    - `trip_id`, `route_id`, `stop_id`, `stop_sequence`, `vehicle_id`, `service_id`, `service_date_local`
    - `scheduled_arrival_utc` (ISO UTC)
    - `inferred_actual_arrival_utc` (ISO UTC, null if `confidence == low`)
@@ -31,7 +31,7 @@ Two parquet files:
    - `excluded_reason` (empty for high/medium)
    - `first_pos_sample_utc`, `last_pos_sample_utc`
 
-2. **`bt_prediction_error.parquet`** — 28,658 rows. One row per prediction (per snapshot, per labelled `(trip_id, stop_sequence)`). Columns:
+2. **`bt_prediction_error.parquet`** - 28,658 rows. One row per prediction (per snapshot, per labelled `(trip_id, stop_sequence)`). Columns:
    - `trip_id`, `route_id`, `stop_id`, `stop_sequence`, `service_id`, `ground_truth_confidence`
    - `snapshot_ts_utc`, `snapshot_epoch`
    - `bt_delay_seconds` (BT's published trip-level delay at the snapshot)
@@ -57,7 +57,7 @@ Per `(trip_id, vehicle_id)`:
    - **LOW / excluded**: neither condition satisfied.
 3. Scheduled arrival from static `stop_times.txt` (HH:MM:SS, HH≥24 allowed for overnight wrap), combined with `service_date = local_date(first_pos_sample)`, localised in `America/New_York` and converted to UTC.
 
-Label quality: 11.3 % high, 32.4 % medium, 56.4 % low (excluded) — see `ground_truth_coverage.md` in the repo.
+Label quality: 11.3 % high, 32.4 % medium, 56.4 % low (excluded) - see `ground_truth_coverage.md` in the repo.
 
 ## Known limitations
 

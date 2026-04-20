@@ -27,7 +27,7 @@ git push -u origin main
    ```
    (Optionally: `LOG_LEVEL=INFO`.)
 4. In the service's **Settings → Networking** tab, click **Generate Domain**. Railway gives you a URL like `https://bt-ml-production-xxxx.up.railway.app/`.
-5. Hit `https://<your-railway-url>/healthz` — should return `{"status":"ok","model_source":"a1_lightgbm",...}` in a couple seconds.
+5. Hit `https://<your-railway-url>/healthz` - should return `{"status":"ok","model_source":"a1_lightgbm",...}` in a couple seconds.
 
 ### 4. Point the Android app at the deployed backend
 On the `ayan/integrate-naishal` branch, open `local.properties` and set:
@@ -65,5 +65,5 @@ The Maps key is currently a hackathon-grade shared secret. After submission:
 | `/plan` returns `status: "UPSTREAM_ERROR"` | Google rate-limit or billing issue | Check Google Cloud → APIs & Services → Dashboard → Directions API traffic graph |
 | `/plan` returns `status: "REQUEST_DENIED"` | Directions API disabled on the key's project | APIs & Services → Library → Directions API → Enable |
 | `/healthz` returns `a1_loaded: false` | `models/a1_delay_correction.joblib` wasn't copied into the image | Confirm `COPY models ./models` in `service/Dockerfile`; check Railway build logs |
-| Slow (>1 s) cold `/plan` latency | Healthy — Google upstream is ~300-500ms cold; warm cache hits are <20ms | Nothing to fix; monitor `meta.cache_hit` in responses |
+| Slow (>1 s) cold `/plan` latency | Healthy - Google upstream is ~300-500ms cold; warm cache hits are <20ms | Nothing to fix; monitor `meta.cache_hit` in responses |
 | Container restarts every few seconds | Check Railway logs for startup exception; most likely missing GTFS static files | Ensure `data/gtfs_static/*.txt` is committed to the repo |

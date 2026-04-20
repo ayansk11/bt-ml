@@ -1,4 +1,4 @@
-"""GET /alerts — GTFS-RT alert feed, parsed."""
+"""GET /alerts - GTFS-RT alert feed, parsed."""
 from __future__ import annotations
 
 from fastapi import APIRouter, Request

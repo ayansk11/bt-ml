@@ -1,4 +1,4 @@
-"""A2 — per-route intercept correction.
+"""A2 - per-route intercept correction.
 
 For each route_id, compute median(target_correction_seconds) = median(actual - predicted).
 Routes with fewer than MIN_SAMPLES get intercept = 0 to avoid noise.

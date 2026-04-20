@@ -58,7 +58,7 @@ def upload_model(owner: str, token: str, dry_run: bool) -> None:
         size_kb = src.stat().st_size / 1024
         print(f"  upload {src.relative_to(ROOT)} → {dst}  ({size_kb:.1f} KB)")
     if dry_run:
-        print("  (dry-run — no upload)")
+        print("  (dry-run - no upload)")
         return
 
     from huggingface_hub import HfApi, create_repo
@@ -89,7 +89,7 @@ def upload_dataset(owner: str, token: str, dry_run: bool) -> None:
         size_kb = src.stat().st_size / 1024
         print(f"  upload {src.relative_to(ROOT)} → {dst}  ({size_kb:.1f} KB)")
     if dry_run:
-        print("  (dry-run — no upload)")
+        print("  (dry-run - no upload)")
         return
 
     from huggingface_hub import HfApi, create_repo
